@@ -14,7 +14,7 @@ import java.util.Date;
 @Entity
 @Table(name = "memory")
 @NoArgsConstructor
-public class TransactionalMemory {
+public class Memory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +31,7 @@ public class TransactionalMemory {
     @Column(name = "is_cancelled")
     private Boolean isCancelled;
 
-    public TransactionalMemory(Long amount, Long userId, Date transactionDate) {
+    public Memory(Long amount, Long userId, Date transactionDate) {
         this.amount = amount;
         this.userId = userId;
         this.transactionDate = transactionDate;

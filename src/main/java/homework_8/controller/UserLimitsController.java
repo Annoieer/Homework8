@@ -1,5 +1,6 @@
 package homework_8.controller;
 
+import homework_8.dto.CancelUserLimitChangeResponseDto;
 import homework_8.dto.UserLimitDto;
 import homework_8.dto.UserLimitResponseDto;
 import homework_8.service.UserLimitService;
@@ -33,5 +34,15 @@ public class UserLimitsController {
     @PostMapping(value = "/user/{userId}/updateLimitPolicy")
     public UserLimitDto changeUserLimitPolicy(@PathVariable Long userId, @RequestParam Long limitPolicy) {
         return userLimitService.changeUserLimitPolicy(userId, limitPolicy);
+    }
+
+    @PostMapping(value = "/update/user/{userId}")
+    public UserLimitDto updateUserLimit(@PathVariable Long userId, @RequestParam Long amount) {
+        return userLimitService.changeUserLimitByAmount(userId, amount);
+    }
+
+    @PostMapping(value = "/update/cancelChange/{id}")
+    public CancelUserLimitChangeResponseDto cancelUserLimitMemory(@PathVariable Long id) {
+        return userLimitService.cancelUserLimitMemoryById(id);
     }
 }

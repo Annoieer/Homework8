@@ -1,8 +1,6 @@
 package homework_8.service;
 
-import homework_8.dto.LimitPolicyDto;
-import homework_8.dto.UserLimitDto;
-import homework_8.dto.UserLimitResponseDto;
+import homework_8.dto.*;
 import homework_8.entity.UserLimit;
 import homework_8.exception.CustomNotFoundException;
 import homework_8.exception.CustomPaymentRequiredException;
@@ -20,13 +18,16 @@ public class UserLimitService {
     private final LimitPolicyService limitPolicyService;
     private final UserLimitMapper userLimitMapper;
     private final UserLimitRepository userLimitRepository;
+    private final MemoryService memoryService;
 
     public UserLimitService(LimitPolicyService limitPolicyService,
                             UserLimitMapper userLimitMapper,
-                            UserLimitRepository userLimitRepository) {
+                            UserLimitRepository userLimitRepository,
+                            MemoryService memoryService) {
         this.limitPolicyService = limitPolicyService;
         this.userLimitMapper = userLimitMapper;
         this.userLimitRepository = userLimitRepository;
+        this.memoryService = memoryService;
     }
 
     public UserLimitResponseDto getAllUserLimits() {
@@ -76,9 +77,21 @@ public class UserLimitService {
         }
 
         userLimitRepository.setUserLimit(userId, newLimit);
+        memoryService.saveChangeLimitMemory(userId, amount);
         userLimit.setUserLimit(newLimit);
 
         return userLimitMapper.toDto(userLimit);
+    }
+
+    public CancelUserLimitChangeResponseDto cancelUserLimitMemoryById(Long id) {
+        MemoryDto memory = memoryService.cancelChangeLimitMemory(id);
+        Long userId = memory.getUserId();
+        Long amount = memory.getAmount();
+
+        UserLimitDto userLimit = changeUserLimitByAmount(userId, -amount);
+
+        return new CancelUserLimitChangeResponseDto("Лимит пользователя с id = " + userId + " успешно восстановлен ",
+                userLimit);
     }
 
     public void updateUserLimits() {

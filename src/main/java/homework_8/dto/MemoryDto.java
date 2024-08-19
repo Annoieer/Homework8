@@ -11,7 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class TransactionalMemoryDto {
+public class MemoryDto {
     private Long id;
     private Long amount;
     private Long userId;

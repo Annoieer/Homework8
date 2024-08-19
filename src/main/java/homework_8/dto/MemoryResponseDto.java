@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Getter
 @Setter
-public class TransactionResponseDto {
-    String info;
-    UserLimitDto userLimitDto;
+public class MemoryResponseDto {
+    List<MemoryDto> memory;
 }
